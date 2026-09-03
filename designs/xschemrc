@@ -1,4 +1,2 @@
-#source /home/ipas/Development_FPGA/ciel/sky130A/libs.tech/xschem/xschemrc
-source /media/ipas/archive/Development_FPGA/ciel/sky130A/libs.tech/xschem/xschemrc
-#source $PDK_ROOT/$PDK/libs.tech/xschem/xschemrc
-
+# PDK_ROOT and PDK come from tools/env.sh -- do not hardcode paths here.
+source $PDK_ROOT/$PDK/libs.tech/xschem/xschemrc

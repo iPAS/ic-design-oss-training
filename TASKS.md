@@ -4,9 +4,9 @@
 
 ## Doing
 - [~] Build the EDA toolchain into `tools/root` — started 2026-09-03. Nothing built yet. Next: `./tools/build.sh --clean xschem` then `./tools/build.sh` for the rest.
-- [~] Still to write: updated `check.sh`, `designs/xschem.sh` + `designs/xschemrc`, README "Local toolchain" section — started 2026-09-03
 
 ## Done
+- [x] Rewrote `check.sh` (sources env.sh, flags apt vs local paths, ldd + PDK check); `designs/xschem.sh` reduced to env.sh + exec; `designs/xschemrc` back to `$PDK_ROOT/$PDK`; README "Local toolchain" section — 2026-09-03
 - [x] Removed the stale `tools/root/usr` (old `--prefix=/usr` + DESTDIR build; its xschem binary had `/usr/share/xschem` compiled in) — 2026-09-03, moved to trash
 - [x] Moved `tools/xschem_git` → `tools/src/xschem`, where `build.sh` expects its sources — 2026-09-03
 - [x] `git init` on the project; baseline commit on `master`, work continues on branch `build/local-toolchain` — 2026-09-03
