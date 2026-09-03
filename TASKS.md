@@ -5,6 +5,7 @@
 ## Doing
 
 ## Done
+- [x] Fixed two faults in `check.sh` found by re-testing it: the ldd sweep skipped klayout entirely (bin/ holds wrappers, not ELF) and a version probe could hang on stdin. Negative-tested by hiding a library — 2026-09-03
 - [x] Verified the flow end to end: xschem netlists a sky130 testbench with 0 missing symbols, ngspice-47+ simulates it to a raw file, magic loads sky130A from `designs/`, netgen LVS matches with the PDK setup, klayout reads a PDK GDS — 2026-09-03
 - [x] Fixed `designs/xschemrc`: it is Tcl, so `$PDK_ROOT` never expanded — every symbol came out "IS MISSING". Now `$env(PDK_ROOT)`. Added `designs/.magicrc` + `designs/magic.sh` — 2026-09-03
 - [x] KLayout: deb binaries carry `RUNPATH=/usr/lib/klayout`; `build.sh` now moves them beside their libs and installs LD_LIBRARY_PATH wrappers — 2026-09-03
