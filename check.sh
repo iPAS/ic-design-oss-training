@@ -25,20 +25,31 @@ done
 
 echo
 echo "=== versions"
+exec 3<&0 </dev/null          # no probe may sit waiting on stdin
 xschem --version   2>&1 | head -2
 ngspice --version  2>&1 | head -2
 magic --version    2>&1 | head -1
 netgen -batch quit 2>&1 | head -2
 klayout -v         2>&1 | head -1
+exec 0<&3 3<&-
 
 echo
 echo "=== unresolved shared libraries"
-for b in "${ROOT}"/usr/bin/*; do
-    [[ -x "${b}" && ! -d "${b}" ]] || continue
+# bin/ holds shell wrappers for the klayout binaries (see build_klayout), and
+# ldd says nothing useful about a script -- so scan the real ELF files too.
+# the klayout binaries find their libraries through the wrapper's
+# LD_LIBRARY_PATH, so give ldd the same view or every one reports "not found"
+export LD_LIBRARY_PATH="${ROOT}/usr/lib/klayout${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+found=0
+while IFS= read -r b; do
+    head -c4 "${b}" | grep -q ELF || continue
     miss="$(ldd "${b}" 2>/dev/null | grep 'not found' || true)"
-    [[ -n "${miss}" ]] && printf '%s\n%s\n' "${b}" "${miss}"
-done
-echo "(nothing above = all libraries resolve)"
+    if [[ -n "${miss}" ]]; then
+        printf '%s\n%s\n' "${b}" "${miss}"
+        found=1
+    fi
+done < <(find "${ROOT}/usr/bin" "${ROOT}/usr/lib" -type f -perm -u+x 2>/dev/null)
+(( found )) || echo "ok   every ELF file under usr/bin and usr/lib resolves"
 
 echo
 echo "=== pdk"
