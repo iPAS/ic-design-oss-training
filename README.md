@@ -1,7 +1,7 @@
 # Analog IC Design with Open-Source Tools
 
 Workspace for the TMEC/NSTDA course *Analog IC Design using Open-Source Tools*
-(instructor: Wittawat Yamwong).
+(instructor: Wittawat Yamwong -- git@github.com:wityam/aicoss.git).
 
 The course ships its toolchain as `wityam-aicoss/eda.tar.xz`, which
 `bootstrap.sh` untars into `/usr/local` of a **WSL Ubuntu 26.04** image.  That
