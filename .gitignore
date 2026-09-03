@@ -1,0 +1,17 @@
+# Build products and sources fetched by tools/build.sh -- all reproducible.
+/tools/root/
+/tools/src/
+
+# Python environment (ciel and friends); recreate with pip.
+/venv/
+
+# The instructor's distribution repo -- a clone with its own history.
+/wityam-aicoss/
+
+# Course media, too large for git.
+*.mp4
+
+# Simulation scratch
+*.raw
+*.out
+xschem.log
