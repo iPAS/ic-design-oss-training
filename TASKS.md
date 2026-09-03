@@ -5,6 +5,7 @@
 ## Doing
 
 ## Done
+- [x] Rewrote `README.md` as install → verify → daily use → how it is wired → troubleshooting; dropped the superseded manual "Setup" section — 2026-09-03
 - [x] Added `tools/venv_install.sh` + `tools/requirements.txt` (ciel 2.6.1); `VENV` defined in `env.sh` and read back, same pattern as `EDA_ROOT` — 2026-09-03
 - [x] `build.sh` and `check.sh` take the install location from `EDA_ROOT` in `env.sh` instead of hardcoding it — 2026-09-03
 - [x] Fixed two faults in `check.sh` found by re-testing it: the ldd sweep skipped klayout entirely (bin/ holds wrappers, not ELF) and a version probe could hang on stdin. Negative-tested by hiding a library — 2026-09-03
