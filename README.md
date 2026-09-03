@@ -43,6 +43,21 @@ are gitignored.  The install location is defined once, as `EDA_ROOT` in
 in that one place (and rebuild -- the prefix is compiled in).  KLayout is not built -- the official Ubuntu-24 `.deb` is
 unpacked with `dpkg-deb -x`, which needs no root and saves a multi-hour Qt build.
 
+### Python side
+
+`ciel` and its dependencies live in a virtualenv, never in the system python:
+
+```bash
+./tools/venv_install.sh            # create it and install tools/requirements.txt
+./tools/venv_install.sh --force    # recreate it from scratch
+./tools/venv_install.sh --list     # where it is, and what is in it
+```
+
+Its location is `VENV` in `tools/env.sh` -- the one definition, read back by the
+install script.  Point it somewhere else and `.gitignore` needs the new path.
+The PDK download (`ciel enable <commit>`) is deliberately not automated; the
+script prints the command.
+
 ### Use
 
 ```bash

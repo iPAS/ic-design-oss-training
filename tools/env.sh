@@ -24,9 +24,14 @@ export CAD_ROOT="${EDA_ROOT}/usr/lib"
 export PDK_ROOT="/media/ipas/archive/Development_FPGA/ciel"
 export PDK="sky130A"
 
-# ciel and the other python helpers live in the project venv
-if [[ -f "${_PROJ_DIR}/venv/bin/activate" ]]; then
-    source "${_PROJ_DIR}/venv/bin/activate"
+# ciel and the other python helpers live in the project venv.  This is the ONE
+# definition of where it lives; tools/venv_install.sh reads it back from here.
+export VENV="${_PROJ_DIR}/venv"
+
+if [[ -f "${VENV}/bin/activate" ]]; then
+    source "${VENV}/bin/activate"
+else
+    echo "NOTE: no python environment at ${VENV} -- run tools/venv_install.sh" >&2
 fi
 
 if [[ ! -d "${PDK_ROOT}/${PDK}" ]]; then

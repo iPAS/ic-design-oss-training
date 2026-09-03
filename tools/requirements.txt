@@ -1,0 +1,2 @@
+# Python side of the toolchain.  Installed into $VENV by tools/venv_install.sh.
+ciel==2.6.1
