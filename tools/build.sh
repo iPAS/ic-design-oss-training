@@ -18,8 +18,13 @@
 set -euo pipefail
 
 TOOLS="$(cd "$(dirname "$0")" && pwd)"
-PREFIX="${TOOLS}/root/usr"
 SRC="${TOOLS}/src"
+
+# Where to install.  env.sh owns that decision; read it back from a subshell so
+# none of env.sh's other effects (PATH, venv, PDK vars) leak into the build.
+_eda_root="$(set +eu; . "${TOOLS}/env.sh" >/dev/null 2>&1; printf '%s' "${EDA_ROOT:-}")"
+[[ -n "${_eda_root}" ]] || { echo "ERROR: ${TOOLS}/env.sh did not set EDA_ROOT" >&2; exit 1; }
+PREFIX="${_eda_root}/usr"
 JOBS="$(nproc)"
 
 KLAYOUT_VER="0.30.12-1"
@@ -135,8 +140,8 @@ build_klayout() {
         curl -fL -o "${deb}.part" "${KLAYOUT_URL}"
         mv "${deb}.part" "${deb}"
     fi
-    say "unpacking klayout into ${TOOLS}/root"
-    dpkg-deb -x "${deb}" "${TOOLS}/root"
+    say "unpacking klayout into ${_eda_root}"
+    dpkg-deb -x "${deb}" "${_eda_root}"
 
     # Every binary in the deb carries RUNPATH=/usr/lib/klayout, an absolute path
     # that does not exist outside a system-wide install.  patchelf would fix the

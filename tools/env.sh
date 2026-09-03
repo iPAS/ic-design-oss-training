@@ -9,14 +9,17 @@
 
 _TOOLS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 _PROJ_DIR="$(dirname "${_TOOLS_DIR}")"
-_ROOT="${_TOOLS_DIR}/root"
 
-export PATH="${_ROOT}/usr/bin:${PATH}"
-export MANPATH="${_ROOT}/usr/share/man:${MANPATH}"
+# The install tree.  This is the ONE definition of where the toolchain lives:
+# build.sh reads it back from here, so the two can never disagree.
+export EDA_ROOT="${_TOOLS_DIR}/root"
+
+export PATH="${EDA_ROOT}/usr/bin:${PATH}"
+export MANPATH="${EDA_ROOT}/usr/share/man:${MANPATH}"
 
 # magic's launcher script resolves its Tcl startup files under ${CAD_ROOT}/magic/tcl.
 # Set it explicitly so it can never fall back to the hardcoded /usr/local default.
-export CAD_ROOT="${_ROOT}/usr/lib"
+export CAD_ROOT="${EDA_ROOT}/usr/lib"
 
 export PDK_ROOT="/media/ipas/archive/Development_FPGA/ciel"
 export PDK="sky130A"
@@ -32,4 +35,4 @@ if [[ ! -d "${PDK_ROOT}/${PDK}" ]]; then
     echo "         but show no sky130 libraries." >&2
 fi
 
-unset _TOOLS_DIR _PROJ_DIR _ROOT
+unset _TOOLS_DIR _PROJ_DIR

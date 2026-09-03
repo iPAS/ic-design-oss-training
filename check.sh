@@ -10,7 +10,7 @@
 cd "$(dirname "$0")"
 source tools/env.sh
 
-ROOT="$(pwd)/tools/root"
+ROOT="${EDA_ROOT}"
 
 echo "=== which"
 for t in xschem ngspice magic netgen klayout gaw; do
