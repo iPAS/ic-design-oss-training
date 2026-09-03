@@ -6,6 +6,61 @@ https://xschem.sourceforge.io/stefan/xschem_man/install_xschem.html
 https://xschem.sourceforge.io/stefan/xschem_man/tutorial_xschem_sky130.html
 
 
+## Local toolchain
+
+The course distributes its EDA tools as `wityam-aicoss/eda.tar.xz`, which
+`bootstrap.sh` untars into `/usr/local` of a **WSL Ubuntu 26.04** image.  That is
+not usable here: this machine is Ubuntu 24.04 (the tarball carries
+`lib/python3.14/dist-packages`), and it installs system-wide.  So the tools are
+built from source into `tools/root` instead, and nothing is installed globally.
+
+Each tool is configured with an absolute `--prefix=<repo>/tools/root/usr` and
+installed **without** `DESTDIR`, so every path compiled into the binaries --
+xschem's sharedir, magic's `CAD_ROOT`, ngspice's `spinit` and code-model
+directory -- points at its real location.  The consequence: **the tree is not
+relocatable.  If you move the project, rebuild.**
+
+### Build
+
+One prerequisite from apt:
+
+```bash
+sudo apt install libreadline-dev
+```
+
+Then:
+
+```bash
+./tools/build.sh                  # everything
+./tools/build.sh magic netgen     # just those
+./tools/build.sh --clean xschem   # wipe its build tree first
+./tools/build.sh --list           # what can be built
+```
+
+Sources are cloned into `tools/src/`; installs land in `tools/root/usr/`.  Both
+are gitignored.  KLayout is not built -- the official Ubuntu-24 `.deb` is
+unpacked with `dpkg-deb -x`, which needs no root and saves a multi-hour Qt build.
+
+### Use
+
+```bash
+source tools/env.sh   # PATH, CAD_ROOT, PDK_ROOT, PDK, venv
+./check.sh            # every path must be under tools/root/usr/bin
+```
+
+The apt-installed ngspice/magic/netgen/klayout stay where they are; the `PATH`
+order set by `env.sh` decides which wins.
+
+Inside `designs/` the two rc files point the tools at the PDK.  Both are read as
+**Tcl**, so environment variables are `$env(PDK_ROOT)`, not `$PDK_ROOT`:
+
+- `designs/xschemrc` -- sources the PDK's xschemrc (symbol libraries)
+- `designs/.magicrc` -- sources the PDK's magicrc (sky130A tech, DRC styles)
+
+`designs/xschem.sh` and `designs/magic.sh` just source `tools/env.sh` and exec
+the tool from the right directory.
+
+
 ## Setup
 
 ```bash

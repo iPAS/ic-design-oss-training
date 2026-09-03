@@ -1,4 +1,3 @@
-#source /home/ipas/Development_FPGA/ciel/sky130A/libs.tech/xschem/xschemrc
-source /media/ipas/archive/Development_FPGA/ciel/sky130A/libs.tech/xschem/xschemrc
-#source $PDK_ROOT/$PDK/libs.tech/xschem/xschemrc
-
+# xschemrc is Tcl, not shell: environment variables are read with $env(...).
+# PDK_ROOT and PDK are exported by tools/env.sh.
+source $env(PDK_ROOT)/$env(PDK)/libs.tech/xschem/xschemrc
