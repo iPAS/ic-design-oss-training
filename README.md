@@ -38,7 +38,9 @@ Then:
 ```
 
 Sources are cloned into `tools/src/`; installs land in `tools/root/usr/`.  Both
-are gitignored.  KLayout is not built -- the official Ubuntu-24 `.deb` is
+are gitignored.  The install location is defined once, as `EDA_ROOT` in
+`tools/env.sh`; `build.sh` and `check.sh` read it back from there, so change it
+in that one place (and rebuild -- the prefix is compiled in).  KLayout is not built -- the official Ubuntu-24 `.deb` is
 unpacked with `dpkg-deb -x`, which needs no root and saves a multi-hour Qt build.
 
 ### Use
