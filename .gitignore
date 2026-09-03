@@ -9,7 +9,8 @@
 /wityam-aicoss/
 /training/
 
-# Course media, too large for git.
+# Course handouts and media -- not ours to redistribute, and too large for git.
+*.pdf
 *.mp4
 
 # Simulation scratch

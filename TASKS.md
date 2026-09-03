@@ -5,6 +5,7 @@
 ## Doing
 
 ## Done
+- [x] Purged the two course PDFs from all 15 commits with `git filter-branch`; added `*.pdf` to `.gitignore` before publishing to a remote — 2026-09-03
 - [x] Rewrote `README.md` as install → verify → daily use → how it is wired → troubleshooting; dropped the superseded manual "Setup" section — 2026-09-03
 - [x] Added `tools/venv_install.sh` + `tools/requirements.txt` (ciel 2.6.1); `VENV` defined in `env.sh` and read back, same pattern as `EDA_ROOT` — 2026-09-03
 - [x] `build.sh` and `check.sh` take the install location from `EDA_ROOT` in `env.sh` instead of hardcoding it — 2026-09-03
