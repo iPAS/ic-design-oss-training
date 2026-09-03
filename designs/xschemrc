@@ -1,2 +1,3 @@
-# PDK_ROOT and PDK come from tools/env.sh -- do not hardcode paths here.
-source $PDK_ROOT/$PDK/libs.tech/xschem/xschemrc
+# xschemrc is Tcl, not shell: environment variables are read with $env(...).
+# PDK_ROOT and PDK are exported by tools/env.sh.
+source $env(PDK_ROOT)/$env(PDK)/libs.tech/xschem/xschemrc

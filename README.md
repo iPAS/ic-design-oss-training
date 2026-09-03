@@ -51,6 +51,15 @@ source tools/env.sh   # PATH, CAD_ROOT, PDK_ROOT, PDK, venv
 The apt-installed ngspice/magic/netgen/klayout stay where they are; the `PATH`
 order set by `env.sh` decides which wins.
 
+Inside `designs/` the two rc files point the tools at the PDK.  Both are read as
+**Tcl**, so environment variables are `$env(PDK_ROOT)`, not `$PDK_ROOT`:
+
+- `designs/xschemrc` -- sources the PDK's xschemrc (symbol libraries)
+- `designs/.magicrc` -- sources the PDK's magicrc (sky130A tech, DRC styles)
+
+`designs/xschem.sh` and `designs/magic.sh` just source `tools/env.sh` and exec
+the tool from the right directory.
+
 
 ## Setup
 

@@ -1,0 +1,3 @@
+# Magic reads .magicrc from the current directory.  PDK_ROOT and PDK come from
+# tools/env.sh; the PDK's own magicrc sets the tech, cell paths and DRC styles.
+source $env(PDK_ROOT)/$env(PDK)/libs.tech/magic/$env(PDK).magicrc
