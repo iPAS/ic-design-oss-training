@@ -22,7 +22,8 @@ export MANPATH="${EDA_ROOT}/usr/share/man:${MANPATH}"
 export CAD_ROOT="${EDA_ROOT}/usr/lib"
 
 export PDK_ROOT="/media/ipas/archive/Development_FPGA/ciel"
-export PDK="sky130A"
+#export PDK="sky130A"
+export PDK="gf180mcuC"
 
 # ciel and the other python helpers live in the project venv.  This is the ONE
 # definition of where it lives; tools/venv_install.sh reads it back from here.

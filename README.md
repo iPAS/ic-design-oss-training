@@ -56,7 +56,7 @@ instead.  Otherwise, several GB of download:
 
 ```bash
 source tools/env.sh
-ciel enable 026824c7969ce6f4fc9678e6ca04b0a06a596c4b
+tools/ciel_install_pdks.sh
 ```
 
 It installs into `$PDK_ROOT`, giving `$PDK_ROOT/sky130A` and `$PDK_ROOT/sky130B`.
