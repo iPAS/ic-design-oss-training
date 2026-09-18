@@ -115,13 +115,17 @@ ok   present
 ## Daily use
 
 ```bash
-source tools/env.sh          # PATH, EDA_ROOT, CAD_ROOT, PDK_ROOT, PDK, venv
-cd designs && ./xschem.sh    # or ./magic.sh
+bin/xschem.sh                # or bin/magic.sh -- from any directory
 ```
 
-Always work from inside a design directory: xschem reads `./xschemrc` and magic
-reads `./.magicrc` from the current directory, and those are what point both
-tools at the PDK.
+The launchers source `tools/env.sh`, change into `designs/`, and hand the tool its
+rc file from `bin/` (`xschem --rcfile=bin/xschemrc`, `magic -rcfile bin/magicrc`).
+Those rc files are what point both tools at the PDK.
+
+`designs/` holds sources only -- schematics, symbols, layouts. Scripts and rc
+files belong in `bin/`; `.gitignore` keeps stray copies of them out of
+`designs/`. Starting `xschem` or `magic` directly, without the launcher, skips
+the rc file and the PDK is not loaded.
 
 Typical flow: draw in **xschem** -> `Simulation > Netlist` -> `Simulate` runs
 **ngspice** -> view curves in xschem's built-in graph or in **gaw** -> layout in
@@ -139,7 +143,7 @@ exactly once and read back by everything else:
 |---|---|---|
 | `EDA_ROOT`  | where the toolchain installs | `tools/build.sh` (as `--prefix`), `check.sh` |
 | `VENV`      | where the python env lives   | `tools/venv_install.sh` |
-| `PDK_ROOT`  | PDK install directory        | `designs/xschemrc`, `designs/.magicrc`, `check.sh` |
+| `PDK_ROOT`  | PDK install directory        | `bin/xschemrc`, `bin/magicrc`, `check.sh` |
 | `PDK`       | which PDK (`sky130A`)        | same |
 | `CAD_ROOT`  | magic's Tcl startup files    | magic's launcher |
 
@@ -148,7 +152,7 @@ effects -- prepending `PATH`, activating the venv -- cannot leak into a build.
 
 Three things that are easy to get wrong:
 
-- **The rc files are Tcl, not shell.** `designs/xschemrc` and `designs/.magicrc`
+- **The rc files are Tcl, not shell.** `bin/xschemrc` and `bin/magicrc`
   must use `$env(PDK_ROOT)`, never `$PDK_ROOT`. The bare form is not an error
   you will see: the `source` silently fails, and every device netlists as
   `IS MISSING`.
@@ -164,8 +168,8 @@ Three things that are easy to get wrong:
 
 | symptom | cause |
 |---|---|
-| every device netlists as `IS MISSING` | `xschemrc` used `$PDK_ROOT` instead of `$env(PDK_ROOT)`, or `PDK_ROOT` is unset -- the PDK's xschemrc then quietly guesses `/usr/share/pdk` |
-| magic reports technology `minimum` | no `.magicrc` in the current directory |
+| every device netlists as `IS MISSING` | xschem started without `bin/xschem.sh`, or `xschemrc` used `$PDK_ROOT` instead of `$env(PDK_ROOT)`, or `PDK_ROOT` is unset -- the PDK's xschemrc then quietly guesses `/usr/share/pdk` |
+| magic reports technology `minimum` | magic was started directly instead of through `bin/magic.sh`, so `bin/magicrc` was never read |
 | `check.sh` shows a tool in `/usr/bin` | that tool did not build; the apt copy answered |
 | ngspice: `Could not find include file <name>.save` | xschem writes that file only when simulating from the GUI, not when netlisting in batch |
 | ngspice: `Undefined parameter [l]` / model errors | `.spiceinit` missing from the simulation directory (step 5) |
