@@ -20,7 +20,9 @@ decides which wins.
 | klayout | 0.30.12  | layout viewer/editor |
 | gaw     | git      | analog waveform viewer |
 
-PDK: **SkyWater SKY130** (`sky130A`), installed with `ciel`.
+PDK: **GlobalFoundries GF180MCU** (`gf180mcuC`), the one the course uses.
+**SkyWater SKY130** (`sky130A`) is installed alongside it as an alternative --
+see [Switching PDK](#switching-pdk). Both come from `ciel`.
 
 ---
 
@@ -59,7 +61,8 @@ source tools/env.sh
 tools/ciel_install_pdks.sh
 ```
 
-It installs into `$PDK_ROOT`, giving `$PDK_ROOT/sky130A` and `$PDK_ROOT/sky130B`.
+It installs both families into `$PDK_ROOT`: `gf180mcuA`..`gf180mcuD` and
+`sky130A`/`sky130B`. `tools/env.sh` picks one of them with `PDK`.
 
 ### 4. The toolchain
 
@@ -85,7 +88,7 @@ mkdir -p ~/.xschem/simulations
 cp xschem-sim.spiceinit ~/.xschem/simulations/.spiceinit
 ```
 
-Without it ngspice rejects the sky130 models -- `ngbehavior=hsa` is what makes
+Without it ngspice rejects the PDK's models -- `ngbehavior=hsa` is what makes
 it read HSPICE-style model files.
 
 ---
@@ -122,15 +125,33 @@ The launchers source `tools/env.sh`, change into `designs/`, and hand the tool i
 rc file from `bin/` (`xschem --rcfile=bin/xschemrc`, `magic -rcfile bin/magicrc`).
 Those rc files are what point both tools at the PDK.
 
-`designs/` holds sources only -- schematics, symbols, layouts. Scripts and rc
-files belong in `bin/`; `.gitignore` keeps stray copies of them out of
-`designs/`. Starting `xschem` or `magic` directly, without the launcher, skips
+`designs/` is your work space -- schematics, symbols, layouts. Everything in it
+is git-ignored (only `designs/.gitkeep` is tracked, so the directory exists in a
+fresh clone). Scripts and rc files belong in `bin/`. Starting `xschem` or `magic` directly, without the launcher, skips
 the rc file and the PDK is not loaded.
 
 Typical flow: draw in **xschem** -> `Simulation > Netlist` -> `Simulate` runs
 **ngspice** -> view curves in xschem's built-in graph or in **gaw** -> layout in
-**magic** with sky130A DRC -> extract and compare against the schematic netlist
+**magic** with the PDK's DRC -> extract and compare against the schematic netlist
 with **netgen** -> inspect or hand off GDS in **klayout**.
+
+### Switching PDK
+
+The course uses `gf180mcuC`; `sky130A` is the alternative. The choice is one
+line in `tools/env.sh`:
+
+```bash
+export PDK="gf180mcuC"     # course default
+#export PDK="sky130A"      # alternative: SkyWater SKY130
+```
+
+Re-run the launcher (or re-`source tools/env.sh`) after changing it. Nothing
+else needs editing: `bin/xschemrc` and `bin/magicrc` read `$env(PDK)`, so
+xschem, ngspice, magic and netgen all follow.
+
+A schematic belongs to the PDK it was drawn with -- its device symbols come from
+that PDK's library. A gf180 schematic opened under `sky130A` shows every device
+as `IS MISSING`, and the other way round.
 
 ---
 
@@ -144,7 +165,7 @@ exactly once and read back by everything else:
 | `EDA_ROOT`  | where the toolchain installs | `tools/build.sh` (as `--prefix`), `check.sh` |
 | `VENV`      | where the python env lives   | `tools/venv_install.sh` |
 | `PDK_ROOT`  | PDK install directory        | `bin/xschemrc`, `bin/magicrc`, `check.sh` |
-| `PDK`       | which PDK (`sky130A`)        | same |
+| `PDK`       | which PDK (`gf180mcuC`, or `sky130A`) | same |
 | `CAD_ROOT`  | magic's Tcl startup files    | magic's launcher |
 
 `build.sh` and `venv_install.sh` read `env.sh` in a **subshell**, so its other

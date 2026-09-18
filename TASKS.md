@@ -5,6 +5,7 @@
 ## Doing
 
 ## Done
+- [x] Ignored everything in `designs/` (kept via `.gitkeep`); README names gf180mcuC as the course PDK with sky130A as the alternative, plus a "Switching PDK" section — 2026-09-18
 - [x] Moved `xschem.sh`, `magic.sh`, `xschemrc`, `.magicrc` (now `magicrc`) from `designs/` to `bin/`; launchers pass the rc file explicitly; those names ignored under `designs/` — 2026-09-18
 - [x] Purged the two course PDFs from all 15 commits with `git filter-branch`; added `*.pdf` to `.gitignore` before publishing to a remote — 2026-09-03
 - [x] Rewrote `README.md` as install → verify → daily use → how it is wired → troubleshooting; dropped the superseded manual "Setup" section — 2026-09-03
