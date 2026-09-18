@@ -5,7 +5,7 @@
 #     source tools/env.sh
 #
 # It puts the locally built toolchain in tools/root ahead of the apt-installed
-# copies and points the tools at the sky130A PDK.  Nothing here is global.
+# copies and points the tools at the PDK chosen by PDK below.  Nothing here is global.
 
 _TOOLS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 _PROJ_DIR="$(dirname "${_TOOLS_DIR}")"
@@ -38,7 +38,7 @@ fi
 if [[ ! -d "${PDK_ROOT}/${PDK}" ]]; then
     echo "WARNING: PDK not found at ${PDK_ROOT}/${PDK}" >&2
     echo "         Is /media/ipas/archive mounted?  xschem and magic will start" >&2
-    echo "         but show no sky130 libraries." >&2
+    echo "         but show no PDK libraries." >&2
 fi
 
 unset _TOOLS_DIR _PROJ_DIR

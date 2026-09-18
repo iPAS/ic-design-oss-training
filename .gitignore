@@ -13,11 +13,10 @@
 *.pdf
 *.mp4
 
-# designs/ holds sources only; launchers and rc files live in bin/.  Keep
-# stray copies dropped back in here out of the repo.
-/designs/*.sh
-/designs/xschemrc
-/designs/.magicrc
+# designs/ is personal work space -- nothing in it is committed.  The .gitkeep
+# keeps the directory itself, since bin/xschem.sh and bin/magic.sh start there.
+/designs/*
+!/designs/.gitkeep
 
 # Simulation scratch
 *.raw
