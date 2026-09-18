@@ -13,6 +13,12 @@
 *.pdf
 *.mp4
 
+# designs/ holds sources only; launchers and rc files live in bin/.  Keep
+# stray copies dropped back in here out of the repo.
+/designs/*.sh
+/designs/xschemrc
+/designs/.magicrc
+
 # Simulation scratch
 *.raw
 *.out
